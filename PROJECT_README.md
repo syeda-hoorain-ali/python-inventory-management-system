@@ -1,107 +1,97 @@
-# Inventory Management System
+# Advanced OOP Challenge: Inventory Management System
 
-A robust Python-based Inventory Management System that can track different product types, handle stock operations, process sales, and persist data.
+## Objective:
+Design a robust Inventory Management System in Python that can manage different types of products, handle stock operations, sales, and persist data. This challenge is meant to polish your OOP concepts and make you confident in applying them in real-world use cases.
 
-## Features
+---
 
-- **Multiple Product Types** - Support for Electronics, Grocery, and Clothing items with type-specific attributes
-- **Stock Operations** - Add, sell, restock products with validation
-- **Search Functionality** - Search by name or product type
-- **Data Persistence** - Save and load inventory data to/from JSON files
-- **Expired Product Management** - Track and remove expired grocery items
-- **Interactive CLI** - User-friendly command-line interface
-- **Custom Exception Handling** - Informative error messages for common issues
+## 1. Abstract Base Class: Product
 
-## Project Structure
+Use the abc module to make Product an abstract base class.  
+Attributes (with encapsulation):
 
-- `product.py` - Contains the abstract Product class and subclasses (Electronics, Grocery, Clothing)
-- `inventory.py` - Contains the Inventory class for managing collections of products
-- `main.py` - Command-line interface for interacting with the inventory system
-- `sample_data.py` - Script to create and save sample inventory data
-- `test_inventory.py` - Unit tests for the system
+* _product_id
+* _name
+* _price
+* _quantity_in_stock
 
-## Getting Started
+Methods (abstract & concrete):
 
-### Prerequisites
-
-- Python 3.6 or higher
-
-### Installation
-
-1. Clone the repository or download the source code:
-```
-git clone https://github.com/syeda-hoorain-ali/python-inventory-management-system.git
-```
-
-2. Navigate to the project directory:
-```
-cd python-inventory-management-system
-```
-
-### Running the Application
-
-Run the main script to start the interactive CLI:
-```
-python src/main.py
-```
-
-### Loading Sample Data
-
-To create and save sample inventory data:
-```
-python sample_data.py
-```
-
-This creates a `sample_inventory.json` file that you can load from the application's File Operations menu.
+* restock(amount)
+* sell(quantity)
+* get_total_value() --> price \ stock
+* __str __() --> formatted product info
 
 
-## Usage Guide
+---
 
-### Main Menu
+## 2. Subclasses of Product:
 
-The system presents the following options when launched:
+Create at least 3 different product types, each with extra attributes and overridden behavior where needed:
 
-1. **Add new product** - Add a new Electronics, Grocery, or Clothing product
-2. **Sell product** - Record a sale and reduce stock
-3. **Restock product** - Add more units to existing stock
-4. **Search/view products** - Search by name or type, or view all products
-5. **File operations** - Save or load inventory data from files
-6. **Remove expired products** - Remove expired grocery items from inventory
-7. **Exit** - Exit the application
+* **Electronics** --> warranty_years, brand
 
-### Product Types and Attributes
+* **Grocery** --> expiry_date, is_expired()
 
-1. **Electronics**
-   - Product ID, Name, Price, Quantity
-   - Brand, Warranty (years)
+* **Clothing**  --> size, material
 
-2. **Grocery**
-   - Product ID, Name, Price, Quantity
-   - Expiry Date
-   - Expiration status checked automatically
+Each subclass must override __str __() to include their specific info.
 
-3. **Clothing**
-   - Product ID, Name, Price, Quantity
-   - Size, Material
+---
 
-### Data Persistence
+## 3. Class: Inventory
 
-The system can save and load inventory data in JSON format. Files are stored in the project directory by default.
+This class will manage a collection of products.  
+Attributes:
 
-## Error Handling
+* _products --> a dict or list of products
 
-The system includes custom exception handling for common scenarios:
+Methods:
 
-- `InsufficientStockError` - Raised when trying to sell more items than available
-- `DuplicateProductError` - Raised when adding a product with an ID that already exists
-- `InvalidProductTypeError` - Raised when the product type is invalid or unsupported.
-- Various value and format validation errors with helpful messages
+* add_product(product: Product)
+* remove_product(product_id)
+* search_by_name(name)
+* search_by_type(product_type)
+* list_all_products()
+* sell_product(product_id, quantity)
+* restock_product(product_id, quantity)
+* total_inventory_value()
+* remove_expired_products() (for groceries only)
 
-## Contributing
+---
 
-Contributions are welcome! Please feel free to submit pull requests.
+## 4. Bonus / Extra Features (Optional but encouraged):
 
-## License
+Add the ability to save and *load inventory data* in JSON format:
 
-This project is licensed under the MIT License - see the LICENSE file for details. 
+* save_to_file(filename)
+* load_from_file(filename)
 
+Ensure you store all relevant attributes and reconstruct subclasses properly when loading.
+
+* Implement custom exceptions for cases like:
+
+  * Selling more than available stock
+  * Adding products with duplicate IDs
+  * Loading invalid product data from file.
+
+* Add CLI Menu using a while loop for interaction:
+
+  * Add product
+  * Sell product
+  * Search/view product
+  * Save/Load inventory
+  * Exit
+
+---
+Evaluation Criteria:
+
+* Clean, well-structured code
+* Proper use of OOP concepts
+* Realistic and reusable class design
+* Error and edge-case handling
+* Code readability and documentation
+
+---
+
+Deadline: Tuesday, 13 May 2025 at 11:59 PM
